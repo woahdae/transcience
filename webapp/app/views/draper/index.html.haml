@@ -1,0 +1,41 @@
+.row
+  .col-xs-6
+    %br
+    .well
+      :markdown
+        Object hierarchy/identity issues is one general category of problem
+        with using non-domain objects to decorate models that is especially
+        prevalent in Rails as a side-effect of heavy "convention over
+        configuration."
+
+        In this example, if you inspect the row IDs, you'll see HAML is using
+        the class name of the decorator, not the widget itself.
+
+        As noted in [root of this project](/woahdae/schizo) and on [Avdi's
+        blog](http://devblog.avdi.org/2012/01/31/decoration-is-best-except-when-it-isnt),
+        this is just the nature of forwarding in Ruby and has no good
+        solutions. The best we could do is define
+        `ApplicationDelegate#haml_object_ref` and copy/paste Haml's
+        `underscore` method into it.
+
+  .col-xs-6
+    %h3 Widget Table
+
+    %table.table
+      %tr
+        %th
+          ID
+        %th
+          Name
+        %th
+          Price
+        %th
+      - @widgets.each do |widget|
+        %tr[widget]
+          %td= widget.id
+          %td= widget.name
+          %td= widget.price
+          %td
+            - if widget.percent_off
+              #{widget.percent_off} off!
+
