@@ -1,0 +1,9 @@
+GEM
+  specs:
+    casting (0.7.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  casting

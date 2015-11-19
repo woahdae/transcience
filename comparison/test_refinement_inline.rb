@@ -15,7 +15,7 @@ class TestRefiningApiAdapterInline < MiniTest::Test
   end
 
   def test_api_thing_has_path_in_json
-    assert_equal 'a-thing', @thing.as_json[:path]
+    assert_equal 'a-thing', JSON.parse(@thing.to_json)['path']
   end
 
   def test_kind_of_thing

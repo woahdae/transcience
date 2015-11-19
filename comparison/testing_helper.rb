@@ -15,6 +15,7 @@ class ApiAdapterTest < MiniTest::Test
       assert_equal 'a-thing', @thing.slug
     end
 
+    # A test of local rebinding
     def test_api_thing_has_path_in_json
       assert_equal 'a-thing', JSON.parse(@thing.to_json)['path']
     end
