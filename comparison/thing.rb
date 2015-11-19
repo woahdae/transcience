@@ -1,3 +1,5 @@
+require 'json'
+
 class Thing < Struct.new(:id, :name)
   def as_json
     {
