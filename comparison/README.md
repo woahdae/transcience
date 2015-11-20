@@ -10,7 +10,9 @@ In order to highlight innate differences between the strategies, all are
 implemented in the most naive way; thus, some work, and others don't.
 
 For example, only about half of the strategies manage to extend the json
-representation with the `path` property, and the [casting](https://github.com/saturnflyer/casting) strategy in particular doesn't even override `#as_json`.
+representation with the `path` property, and the
+[casting](https://github.com/saturnflyer/casting) strategy in particular
+doesn't even override `#as_json`.
 
 ### Feature Matrix
 
@@ -29,10 +31,30 @@ Casting                          | :green_heart:  | :broken_heart:  | ? (need <-
 
 ### Performance Results
 
-I modified all `slug` methods to just return the name, made all
-`as_json` methods just call super, then ran `measure_performance.rb` a
-bunch of times, and eyeballed the averages into this table. *NOT VERY SCIENTIFIC*,
-but still interesting.
+First, note that when running the perf tests with `#slug` doing string
+manipulation, all strategies are pretty close. Delegators and module
+extension take a bit longer than simple method calls, but it's not
+crazy:
+
+Strategy                         | Time (seconds)
+---------------------------------|---------------
+Simple Inheritance               | 0.08
+Module (via class-level include) | 0.08
+Forwarding                       | 0.08
+DelegateClass                    | 0.09
+SimpleDelegator                  | 0.10
+Module (via instance #extend)    | 0.11
+
+(100,000 iterations each)
+
+In a sense this is a better real-world test, but it begs the question:
+what happens if it's *just* module extension and method dispatch?
+
+So, to test the various strategies absent of other variables, I modified
+all `slug` methods to just return the name, made all `as_json` methods
+just call super, then ran [measure_performance.rb](measure_performance.rb)
+a bunch of times, and eyeballed the averages into this table. *NOT VERY
+SCIENTIFIC*, but still interesting.
 
 Strategy                         | Time (seconds)
 ---------------------------------|---------------
