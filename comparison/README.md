@@ -31,6 +31,8 @@ Casting                          | :green_heart:  | :broken_heart:  | ? (need <-
 
 ### Performance Results
 
+#### Real-ish-world example
+
 First, note that when running the perf tests with `#slug` doing string
 manipulation, all strategies are pretty close. Delegators and module
 extension take a bit longer than simple method calls, but it's not
@@ -49,6 +51,8 @@ Module (via instance #extend)    | 0.11
 
 In a sense this is a better real-world test, but it begs the question:
 what happens if it's *just* module extension and method dispatch?
+
+#### Extend-focused example
 
 So, to test the various strategies absent of other variables, I modified
 all `slug` methods to just return the name, made all `as_json` methods
@@ -71,6 +75,8 @@ Module (via instance #extend)    | 0.35
 
 This matches my expectations coming in to the test, but includes a
 couple learning points too.
+
+### Takeaways
 
 First, I'm glad to see refinements don't add any measurable overhead.
 
