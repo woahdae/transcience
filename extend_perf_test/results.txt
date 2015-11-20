@@ -1,0 +1,52 @@
+~ % ruby bm_dci_pounding.rb
+# 100000 iterations
+# 100 non-decorated calls
+Rehearsal --------------------------------------------------------
+plain dispatch         0.690000   0.000000   0.690000 (  0.688859)
+some delegator         0.840000   0.010000   0.850000 (  0.848078)
+some dci decorator     1.380000   0.000000   1.380000 (  1.379049)
+----------------------------------------------- total: 2.920000sec
+
+                           user     system      total        real
+plain dispatch         0.700000   0.000000   0.700000 (  0.692977)
+some delegator         0.850000   0.000000   0.850000 (  0.853181)
+some dci decorator     1.420000   0.000000   1.420000 (  1.414180)
+~ % ruby bm_dci_pounding.rb
+# 100000 iterations
+# 200 non-decorated calls
+Rehearsal --------------------------------------------------------
+plain dispatch         1.310000   0.010000   1.320000 (  1.315360)
+some delegator         1.480000   0.000000   1.480000 (  1.485176)
+some dci decorator     2.490000   0.010000   2.500000 (  2.493052)
+----------------------------------------------- total: 5.300000sec
+
+                           user     system      total        real
+plain dispatch         1.320000   0.000000   1.320000 (  1.324366)
+some delegator         1.490000   0.000000   1.490000 (  1.491190)
+some dci decorator     2.510000   0.000000   2.510000 (  2.509399)
+~ % ruby bm_dci_pounding.rb
+# 100000 iterations
+# 300 non-decorated calls
+Rehearsal --------------------------------------------------------
+plain dispatch         2.090000   0.010000   2.100000 (  2.099575)
+some delegator         2.280000   0.010000   2.290000 (  2.283076)
+some dci decorator     3.920000   0.010000   3.930000 (  3.925663)
+----------------------------------------------- total: 8.320000sec
+
+                           user     system      total        real
+plain dispatch         2.080000   0.000000   2.080000 (  2.085480)
+some delegator         2.300000   0.000000   2.300000 (  2.299252)
+some dci decorator     3.950000   0.000000   3.950000 (  3.944498)
+~ % ruby bm_dci_pounding.rb
+# 100000 iterations
+# 1000 non-decorated calls
+Rehearsal --------------------------------------------------------
+plain dispatch         7.190000   0.020000   7.210000 (  7.212247)
+some delegator         7.320000   0.010000   7.330000 (  7.325742)
+some dci decorator    12.940000   0.000000  12.940000 ( 12.940868)
+---------------------------------------------- total: 27.480000sec
+
+                           user     system      total        real
+plain dispatch         7.250000   0.000000   7.250000 (  7.264858)
+some delegator         7.450000   0.010000   7.460000 (  7.445777)
+some dci decorator    13.060000   0.010000  13.070000 ( 13.070932)
