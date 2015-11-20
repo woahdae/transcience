@@ -1,9 +1,9 @@
 require 'casting'
 
-require_relative 'testing_helper'
+require_relative 'test_helper'
 
-require_relative 'thing'
-require_relative 'casting_api_adapter'
+require_relative '../models/thing'
+require_relative '../models/casting_api_adapter'
 
 class Thing
   include Casting::Client

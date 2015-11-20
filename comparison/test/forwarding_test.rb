@@ -1,7 +1,7 @@
-require_relative 'testing_helper'
+require_relative 'test_helper'
 
-require_relative 'thing'
-require_relative 'forwarding_api_adapter'
+require_relative '../models/thing'
+require_relative '../models/forwarding_api_adapter'
 
 class TestForwardingApiAdapter < ApiAdapterTest
   def setup

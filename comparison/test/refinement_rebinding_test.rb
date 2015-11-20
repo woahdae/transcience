@@ -1,7 +1,7 @@
-require_relative 'testing_helper'
+require_relative 'test_helper'
 
-require_relative 'thing'
-require_relative 'refining_api_adapter'
+require_relative '../models/thing'
+require_relative '../models/refining_api_adapter'
 
 # these fail because refinements don't do rebinding
 class TestRefiningApiAdapterRebinding < MiniTest::Test

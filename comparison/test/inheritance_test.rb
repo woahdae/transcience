@@ -1,7 +1,7 @@
-require_relative 'testing_helper'
+require_relative 'test_helper'
 
-require_relative 'thing'
-require_relative 'inheriting_api_adapter'
+require_relative '../models/thing'
+require_relative '../models/inheriting_api_adapter'
 
 class TestInheritingApiAdapter < ApiAdapterTest
   def setup
