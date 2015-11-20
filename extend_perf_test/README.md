@@ -38,7 +38,7 @@ In fact, although not measured here, it's probably more performant than ex.
 `method_missing`-based solutions like SimpleDelegate that must
 constantly do more expensive dispatch operations on each method call.
 
-** Three data sources support these claims:**
+**Three data sources support these claims:**
 
 1. [This gist by Github user "raggi"](https://gist.github.com/raggi/4704522)
   tries to reflect real-world usage of extend while a process is doing other
