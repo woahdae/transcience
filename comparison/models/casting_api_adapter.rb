@@ -14,7 +14,7 @@ module CastingApiAdapter
     {
       id: id,
       name: name,
-      path: 'a-thing'
+      path: name.downcase.gsub(' ','-')
     }
   end
 
