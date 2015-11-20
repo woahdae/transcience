@@ -1,84 +1,62 @@
-# Demonstrating self-schizophrenia
+# Strategies for invoking temporary behavior
 
-### The problem
+### Or, how to invoke temporary behavior without going schizo
 
-As full-stack object-oriented developers who are practicing something
-along the lines of domain-driven design, we often want to give our
-domain objects temporary or contextual attributes or behavior.
+What originally started out as an investigation into
+[self-schizophrenia](https://en.wikipedia.org/wiki/Schizophrenia_(object-oriented_programming))
+in view object wrappers like [Draper](https://github.com/drapergem/draper)
+or [Sexy Presenter](https://github.com/kmdsbng/sexy_presenter) ended up as a
+full-on investigation into many aspects of assigning temporary behavior
+to objects in Ruby.
 
-For example, our API might add the resource URI in a models' `#to_json`,
-a view might want to have view-specific defaults or formatting.
+I already have a new-found affinity for simple inheritance for this
+purpose after reading [Growing Rails](https://leanpub.com/growing-rails),
+but that's not a great strategy for view-ish purposes.
 
-Wrapper objects in general are a very popular solution. Whether they're
-called presenters, decorators, delegators, or view models, they all
-share the basic goal of providing temporary or contextual behavior fit
-only for a specific scenario.
+I also already have a dislike for object wrappers; they seem good on paper,
+but in practice you're often juggling between using the unadorned
+object and the wrapper, plus dealing with gem compatibility issues (ex.
+Rails' view helpers don't play well with wrapped objects, nor does
+HAML's helpers).
 
-The problem with wrapper objects is twofold, and can be summarized as
-"self-schizophrenia" - an object with two concepts of 'self.'
+So, what's a Rails developer left with? Is it best to beat a wrapper
+into submission with tricks like redefining `#class`? Just play the
+wrapper/model juggling game? How about `#extend` - good in theory, but
+doesn't it have huge performance issues?
 
-The first way this manifests a problem is in class and inheritance
-hierarchies of the wrapper vs the wrapped object. This is especially
-problematic in Rails, where the framework and supporting libraries try
-to manifest useful behavior based on object names and inheritance
-hierarchies. For example, `dom_id` helpers in Rails and HAML use class
-names to auto-generate HTML classes and ids, but will mis-identify wrapper objects.
-In general the wrapper will seem like a drop-in replacement, since the
-wrapper indeed "quacks like a duck," but since it will happily tell you it's
-not any kind of duck, a good number of libraries will be confused.
+You can just read the summary, and/or dive deeper into the
+subdirectories. Each one has a README, so you won't have to do much
+code spelunking.
 
-The second way this manifests a problem is in unintuitive method dispatch.
-Calling a method directly on the wrapper will always execute the correct
-method, either calling the method on the wrapper or delegating to the wrapped object.
-However, any method calls the wrapped object makes internally will be
-called on itself, the wrapped object, not on the wrapper. This makes
-sense, because the whole point is that the wrapped object has no
-knowledge of the wrapper, but is yet another way subtle bugs can creep
-in as soon as you're not keeping both objects in mind.
+### Summary
 
-For these reasons, giving an object temporary behavior by wrapping it
-with another object is not ideal. Even when it works for a simple case,
-like presenting a product with a dollar sign in front of the price,
-you're employing a strategy that we know won't scale to more complex
-uses, and might even trip up libraries or other developers in the simple
-case!
+If you're using Ruby 2.1 or later, don't avoid `#extend` for performance
+reasons. It's now at least as performant as delegation, maybe better,
+and there is no risk of invalidating your class cache like in earlier
+versions of Ruby.
 
-### This project
+If you're using Ruby 2.0 or earlier, favor a delegation strategy and
+deal with the fallout. The good news is delegation is nice because you
+can't accidentally change model behavior, the bad news is often
+you'll want to and can't. You'll also need to do things like ex.
+copy/paste HAML's `underscore` into your delegators' `haml_object_ref`
+method, and other hacks. But it's the best there is, pre-2.1.
 
-This project demonstrates various ways of giving an object temporary or
-contextual behavior, and where each strategy succeeds or fails according
-to these criteria:
+### Dive Deeper
 
-An object granted temporary or contextual behavior should:
-
-* Still be within its class hierarchy
-* Dispatch methods in the context of the applied behavior first
-
-In this project the problem is looked at from multiple angles, and in
-each case tests have been written to see what satisfies which criteria.
-Note that the tests don't all pass, and this is intentional. A test
-failure represents a failure of the strategy to meet our criteria.
-
-First, the "comparison" directory provides examples of granting
-temporary behavior via:
-
-* Forwarding via `Forwardable` module
-* Delegating via `SimpleDelegator`
-* Multiple uses of refinements
-
-We also know simple inheritance would satisfy our requirements, but
-would also limit us to a single behavior at a time. This was not in the
-comparison since it's uninteresting to test, but not because it's a
-horrible idea.
-
-Next, the "avdi" directory is a copy/paste of [Avdi Grimm's article on self-schizophrenia](http://devblog.avdi.org/2012/01/31/decoration-is-best-except-when-it-isnt/), plus tests to show what works with delegation and what doesn't (as his blog article also spells out).
-
-Finally, the "webapp" directary is a Ruby project using wrapper
-libraries for view presenters, namely Draper. Draper is wildly popular,
-but as I suspected, does still exhibit all the pitfalls of delegation.
-Actually, the exercise of creating a view with Draper made me realize
-maybe it's a nice feature that the decorators can't modify model
-behavior, but I still think it's conceptually simpler to not have the
-self-split.
-
+* [the comparison directory](comparison) contains many implementations
+  of wrapper objects, and unit tests that assert the various things we
+  want to be true of a wrapper object. Not all the tests pass, since
+  not all strategies provide everything we want. The comparison README
+  summarizes my findings.
+* [the avdi directory](avdi) implements [Avdi Grimm's article on delegators](http://devblog.avdi.org/2012/01/31/decoration-is-best-except-when-it-isnt/)
+  with tests. I just wanted to see the issues for myself.
+* [the webapp directory](webapp) implements a Rails app using
+  [Draper](https://github.com/drapergem/draper) to see if it suffers
+  from issues with the delegator pattern I've experienced in my own
+  home-grown SimpleDelegator-based presenter implementations. The webapp
+  README has screenshots showing what I found.
+* [the extend_perf_test directory](extend_perf_test) follows up on many
+  popular but dated blog posts on the topic of `#extend` performance.
+  The extend_perf_test README summarizes the results.
 
