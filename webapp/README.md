@@ -5,10 +5,10 @@ I was curious whether a popular Rails decorator library,
 self-schizophrenia issues like showing the wrong IDs in forms, haml,
 etc, or exhibiting dispatch/"local rebinding" issues.
 
-I only ended up trying to demonstrate that Draper doesn't integrate with
-Haml's auto-id syntax, but that's enough for me (I succeeded).
+I only got as far as to demonstrate Draper doesn't integrate with
+Haml's auto-id syntax, but that's good enough to prove the point.
 
-Screenshots or it didn't happen:
+It should show "widget_1" as the ID, but instead it shows "widget_decorator_1":
 
 ### Wrong ID:
 
