@@ -65,7 +65,6 @@ This directory's [bench.rb](bench.rb) is a reproduction of this posts' test.
 ### 3
 
 My own tests are in [extend_21.rb](extend_21.rb), and measure both the cache impact of
-
 extending objects in various inheritance hierarchies, including Object, and
 performance tests to go along. The perf tests also address whether any
 performance hit comes from dispatch vs just extending an object.
