@@ -1,28 +1,27 @@
 # Strategies for invoking temporary behavior
 
-### Or, how to invoke temporary behavior without going schizo
-
-What originally started out as an investigation into
-[self-schizophrenia](https://en.wikipedia.org/wiki/Schizophrenia_(object-oriented_programming))
+What originally started out as an investigation into the (poorly named)
+phenomenon dubbed [self-schizophrenia](https://en.wikipedia.org/wiki/Schizophrenia_(object-oriented_programming))
 in view object wrappers like [Draper](https://github.com/drapergem/draper)
 or [Sexy Presenter](https://github.com/kmdsbng/sexy_presenter) ended up as a
 full-on investigation into many aspects of assigning temporary behavior
 to objects in Ruby.
 
-I already have a new-found affinity for simple inheritance for this
+I already have an affinity for simple inheritance for this
 purpose after reading [Growing Rails](https://leanpub.com/growing-rails),
-but that's not a great strategy for view-ish purposes.
+but simple inheritance is limited to use cases where you only need to
+assign a single operation to a single class.
 
-I also already have a dislike for object wrappers; they seem good on paper,
-but in practice you're often juggling between using the unadorned
-object and the wrapper, plus dealing with gem compatibility issues (ex.
-Rails' view helpers don't play well with wrapped objects, nor does
-HAML's helpers).
+I also have a dislike for decorators. They seem good on paper,
+but have some serious suprises once you try using them. They're not the
+"flexible alternative to subclassing" they're supposed to be.
+Plus, popular decorator gems have Rails compatibility issues (ex.
+Rails' view helpers don't play well with wrapped objects, nor with
+HAML's CSS ID and class helpers).
 
-So, what's a Rails developer left with? Is it best to beat a wrapper
-into submission with tricks like redefining `#class`? Just play the
-wrapper/model juggling game? How about `#extend` - good in theory, but
-doesn't it have huge performance issues?
+So, what's a Rails developer left with? Is it best to beat a decorator
+into submission with metaprogramming tricks? Live with the limitations of derocators?
+How about `#extend` at runtime - good in theory, but doesn't it have huge performance issues?
 
 You can just read the summary, and/or dive deeper into the
 subdirectories. Each one has a README, so you won't have to do much
@@ -36,9 +35,7 @@ and there is no risk of invalidating your class cache like in earlier
 versions of Ruby.
 
 If you're using Ruby 2.0 or earlier, favor a delegation strategy and
-deal with the fallout. The good news is delegation is nice because you
-can't accidentally change model behavior, the bad news is often
-you'll want to and can't. You'll also need to do things like ex.
+deal with the fallout. You'll need to do things like ex.
 copy/paste HAML's `underscore` into your delegators' `haml_object_ref`
 method, and other hacks. But it's the best there is, pre-2.1.
 
