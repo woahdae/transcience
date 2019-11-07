@@ -1,4 +1,4 @@
-# Strategies for invoking temporary behavior
+# Strategies for defining temporary behavior
 
 What originally started out as an investigation into the (poorly named)
 phenomenon dubbed [self-schizophrenia](https://en.wikipedia.org/wiki/Schizophrenia_(object-oriented_programming))
