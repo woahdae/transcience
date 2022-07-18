@@ -1,9 +1,12 @@
 GEM
   specs:
-    casting (0.7.1)
+    casting (1.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  casting
+  casting (= 1.0.1)
+
+BUNDLED WITH
+   2.3.17
