@@ -9,10 +9,7 @@ require_relative 'models/casting_api_adapter'
 
 require 'benchmark'
 
-class Thing
-  include Casting::Client
-  include Casting::MissingMethodClient
-end
+Thing.include Casting::Client
 
 class ExtendedThing < Thing
   include ModuleApiAdapter
@@ -26,7 +23,7 @@ raise if ExtendedThing.new(1, 'A Thing').as_json[:path].nil?
 raise if ForwardingApiAdapter.new(Thing.new(1, 'A Thing')).as_json[:path].nil?
 raise if SimpleDelegatorApiAdapter.new(Thing.new(1, 'A Thing')).as_json[:path].nil?
 raise if DelegateClassApiAdapter.new(Thing.new(1, 'A Thing')).as_json[:path].nil?
-#raise if Thing.new(1, 'A Thing').cast_as(CastingApiAdapter).as_json[:path].nil?
+raise if Thing.new(1, 'A Thing').cast(:as_json, CastingApiAdapter)[:path].nil?
 
 Benchmark.bmbm do |x|
   x.report("Simple Inheritance") do
@@ -53,9 +50,14 @@ Benchmark.bmbm do |x|
     ITERATIONS.times { DelegateClassApiAdapter.new(Thing.new(1, 'A Thing')).as_json }
   end
 
-#  x.report('Casting') do
-#    ITERATIONS.times { Thing.new(1, 'A Thing').cast_as(CastingApiAdapter).as_json }
-#  end
+  x.report('Casting') do
+    ITERATIONS.times { Thing.new(1, 'A Thing').cast(:as_json, CastingApiAdapter) }
+  end
+
+  x.report('Casting prepared delegation') do
+    delegation = Casting::Delegation.new(attendant: CastingApiAdapter, delegated_method_name: :as_json)
+    ITERATIONS.times { delegation.client = Thing.new(1, 'A Thing'); delegation.call }
+  end
 end
 
 puts

@@ -1,1 +1,1 @@
-gem 'casting'
+gem 'casting', '1.0.1'

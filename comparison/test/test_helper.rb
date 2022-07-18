@@ -9,6 +9,14 @@ class ApiAdapterTest < MiniTest::Test
     @thing = Thing.new(1, 'A Thing')
   end
 
+  def thing_as_json
+    @thing.as_json
+  end
+
+  def thing_to_json
+    @thing.to_json
+  end
+
   module Tests
     # adding a new method
     def test_api_thing_has_slug
@@ -17,12 +25,12 @@ class ApiAdapterTest < MiniTest::Test
 
     # modifying an existing method
     def test_api_thing_has_path_in_as_json
-      assert_equal 'a-thing', @thing.as_json[:path]
+      assert_equal 'a-thing', thing_as_json[:path]
     end
 
     # local rebinding
     def test_api_thing_has_path_in_to_json
-      assert_equal 'a-thing', JSON.parse(@thing.to_json)['path']
+      assert_equal 'a-thing', JSON.parse(thing_to_json)['path']
     end
 
     # maintaining some sort of class identity
